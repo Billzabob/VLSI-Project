@@ -1,6 +1,7 @@
+`include "seven_segment.v"
 module seven_segment_testbench();
 
-reg [4:0] number;
+reg  [4:0] number;
 wire [6:0] tens_digit;
 wire [6:0] ones_digit;
 
@@ -13,16 +14,17 @@ seven_segment seven_segment1 (
 // Initialize all variables
 initial begin        
 	$display("Starting simulation...");
-	number <= 0;
+	number = -1;
 end
 
 always begin
 	#5
-	number <= number + 1;
-	$display("Number: %d, Tens: %b, Ones: %b", number, tens_digit, ones_digit);
-	if(number >= 30)
+  	number = number + 1;
+	$monitor("Number: %d, Tens: %b, Ones: %b", number, tens_digit, ones_digit);
+	if(number > 30)
 		$finish;
 end
 
 endmodule
+
 
