@@ -19,16 +19,16 @@ pedestrian_light pedestrian_light0 (
 
 // Initialize all variables
 initial begin        
-	master_timer = 121;
+	$display("----Starting pedestrian light test bench----");
+	$monitor("Time left: %d, Tens: %b, Ones: %b, Hand: %b, Walk: %b", master_timer, tens_digit, ones_digit, hand_light, walk_light);
+	master_timer = 120;
 	enable = 1;
-	$display("Starting simulation...");
 end
 
 // Clock generator
 always begin
 	#5
 	master_timer = master_timer - 1;
-	$monitor("Time left: %d, Tens: %b, Ones: %b, Hand: %b, Walk: %b", master_timer, tens_digit, ones_digit, hand_light, walk_light);
 	if(master_timer == 127)
 		$finish;
 end

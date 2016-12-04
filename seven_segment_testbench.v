@@ -12,19 +12,18 @@ seven_segment seven_segment1 (
 );
 
 // Initialize all variables
-initial begin        
-	$display("Starting simulation...");
-	number = -1;
+initial begin
+	$display("----Starting seven segment test bench----");
+	$monitor("Number: %d, Tens: %b, Ones: %b", number, tens_digit, ones_digit);
+	number = 0;
 end
 
 always begin
 	#5
   	number = number + 1;
-	$monitor("Number: %d, Tens: %b, Ones: %b", number, tens_digit, ones_digit);
 	if(number > 30)
 		$finish;
 end
 
 endmodule
-
 
