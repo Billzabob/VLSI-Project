@@ -18,7 +18,7 @@ wire [4:0] number;
 reg [6:0] tens_digit;
 reg [6:0] ones_digit;
 
-//-------------Other Variables-------------------------
+//-------------Internal Wires and Regs-----------------
 reg [3:0] ones_value;
 
 //------------Code Starts Here-------------------------
