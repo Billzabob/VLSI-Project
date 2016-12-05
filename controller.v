@@ -1,4 +1,6 @@
-`timescale 1ns/1ps
+`timescale 1ms/1ps
+`include "pedestrian_light.v"
+`include "traffic_light.v"
 module controller (
 	clk,
 	
@@ -15,13 +17,13 @@ module controller (
 // Individual traffic light outputs
 	straight_street_straight_lane_green_light,
 	straight_street_straight_lane_yellow_light,
-	straight_street_straight_lane_red_light
+	straight_street_straight_lane_red_light,
 	straight_street_turn_lane_green_light,
 	straight_street_turn_lane_yellow_light,
-	straight_street_turn_lane_red_light
+	straight_street_turn_lane_red_light,
 	cross_street_straight_lane_green_light,
 	cross_street_straight_lane_yellow_light,
-	cross_street_straight_lane_red_light
+	cross_street_straight_lane_red_light,
 	cross_street_turn_lane_green_light,
 	cross_street_turn_lane_yellow_light,
 	cross_street_turn_lane_red_light,
@@ -137,7 +139,7 @@ pedestrian_light straight_steet_pedestrian_light(
 
 pedestrian_light cross_steet_pedestrian_light(
 	.enable(cross_street_pedestrian_light_enable),
-	.master_timer(master_timer)
+	.master_timer(master_timer),
 	.tens_digit(cross_street_tens_digit),
 	.ones_digit(cross_street_ones_digit),
 	.hand_light(cross_street_hand_light),
@@ -181,7 +183,8 @@ traffic_light cross_street_turn_lane_traffic_light(
 
 always @ (state) begin
 	case(state)
-		straight_street_straight_lane: 
+		straight_street_straight_lane:
+		begin
 			// straight street straight lanes are green
 			// straight street turn lanes are red
 			// straight street pedestrian crossings are on
@@ -200,7 +203,9 @@ always @ (state) begin
 			// Enable the appropriate pedestrian light
 			straight_street_pedestrian_light_enable <= 1;
 			cross_street_pedestrian_light_enable <= 0;
+		end
 		straight_street_turn_lane:
+		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are green
 			// straight street pedestrian crossings are off
@@ -219,7 +224,9 @@ always @ (state) begin
 			// Enable the appropriate pedestrian light
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 0;
+		end
 		cross_street_straight_lane:
+		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are red
 			// straight street pedestrian crossings are off
@@ -238,7 +245,9 @@ always @ (state) begin
 			// Enable the appropriate pedestrian light
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 1;
+		end
 		cross_street_turn_lane:
+		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are red
 			// straight street pedestrian crossings are off
@@ -257,7 +266,9 @@ always @ (state) begin
 			// Enable the appropriate pedestrian light
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 0;
+		end
 		default:
+		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are red
 			// straight street pedestrian crossings are off
@@ -276,6 +287,7 @@ always @ (state) begin
 			// Enable the appropriate pedestrian light
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 0;
+		end
 	endcase
 end
 
@@ -285,7 +297,7 @@ end
 // then the seconds_timer comparison below will need to be updated to 
 // whatever the clock rate is.
 
-always @ (posedge clock) begin
+always @ (posedge clk) begin
 	if(master_timer_speed_up == 1) begin
 		seconds_timer <= 0;
 		master_timer <= 30;
@@ -302,21 +314,21 @@ always @ (posedge clock) begin
 			master_timer <= 60;
 		end
 
-		if(state == straight_street_turn_lane) && (master_timer == 0)) begin
+		if((state == straight_street_turn_lane) && (master_timer == 0)) begin
 			state <= cross_street_straight_lane;
 			master_timer <= 120;
 		end
 
-		if(state == cross_street_straight_lane) && (master_timer == 0)) begin
+		if((state == cross_street_straight_lane) && (master_timer == 0)) begin
 			state <= cross_street_turn_lane;
 			master_timer <= 60;
 		end
 
-		if(state == cross_street_turn_lane) && (master_timer == 0)) begin
+		if((state == cross_street_turn_lane) && (master_timer == 0)) begin
 			state <= straight_street_straight_lane;
 			master_timer <= 120;
 		end
-
+	end
 	else begin
 		seconds_timer <= seconds_timer + 1;
 		master_timer <= master_timer;
