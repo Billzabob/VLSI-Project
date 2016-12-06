@@ -20,9 +20,9 @@ reg [6:0] master_timer;
 wire      enable;
 
 //-------------Output Ports Data Type------------------
-reg green_light;
-reg yellow_light;
-reg red_light;
+reg green_light = 0;
+reg yellow_light = 0;
+reg red_light = 0;
 
 //------------Output Statments-------------------------
 always @ (enable or master_timer) begin

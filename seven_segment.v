@@ -15,8 +15,8 @@ output [6:0] ones_digit;
 wire [4:0] number;
 
 //-------------Output Ports Data Type------------------
-reg [6:0] tens_digit;
-reg [6:0] ones_digit;
+reg [6:0] tens_digit = 7'b0000000;
+reg [6:0] ones_digit = 7'b0000000;
 
 //-------------Internal Wires and Regs-----------------
 reg [3:0] ones_value;

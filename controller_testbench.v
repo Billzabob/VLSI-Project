@@ -91,7 +91,7 @@ initial begin
 	cross_street_straight_lane_car_sensor = 0;
 	cross_street_turn_lane_car_sensor = 0;
 	clk = 0;
-	#400000
+	#1600000
 	$finish;
 end
 

@@ -117,12 +117,12 @@ reg [6:0] cross_street_ones_digit;
 reg [9:0] seconds_timer = 0;
 reg [6:0] master_timer = 0;
 reg [1:0] state = 0;
-reg       straight_street_straight_lane_enable;
-reg       straight_street_turn_lane_enable;
-reg       cross_street_straight_lane_enable;
-reg       cross_street_turn_lane_enable;
-reg       straight_street_pedestrian_light_enable;
-reg       cross_street_pedestrian_light_enable;
+reg       straight_street_straight_lane_enable = 0;
+reg       straight_street_turn_lane_enable = 0;
+reg       cross_street_straight_lane_enable = 0;
+reg       cross_street_turn_lane_enable = 0;
+reg       straight_street_pedestrian_light_enable = 0;
+reg       cross_street_pedestrian_light_enable = 0;
 reg       master_timer_speed_up = 0;
 
 //-------------Modules---------------------------------
