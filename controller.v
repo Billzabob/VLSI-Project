@@ -302,13 +302,11 @@ always @ (posedge clk) begin
 	if(master_timer_speed_up == 1) begin
 		seconds_timer <= 0;
 		master_timer <= 30;
-		master_timer_speed_up <= 0;
 		state <= state;
 	end
 	else if(seconds_timer >= 1000) begin
 		seconds_timer <= 0;
 		master_timer <= master_timer - 1;
-		master_timer_speed_up <= master_timer_speed_up;
 
 		if((state == `STRAIGHT_STREET_STRAIGHT_LANE) && (master_timer == 0)) begin
 			state <= `STRAIGHT_STREET_TURN_LANE;
@@ -334,7 +332,6 @@ always @ (posedge clk) begin
 		seconds_timer <= seconds_timer + 1;
 		master_timer <= master_timer;
 		state <= state;
-		master_timer_speed_up <= master_timer_speed_up;
 	end
 end
 
