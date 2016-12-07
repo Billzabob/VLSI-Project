@@ -40,10 +40,12 @@ seven_segment seven_segment0 (
 );
 
 //------------Code Starts Here-------------------------
-assign tens_digit = (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : tens_digit_output;
-assign ones_digit = (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : ones_digit_output;
-assign hand_light = (enable == 1'b1)       ? 1'b0       : 1'b1;
-assign walk_light = (enable == 1'b1)       ? 1'b1       : 1'b0;
+always @(master_timer) begin
+	tens_digit <= (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : tens_digit_output;
+	ones_digit <= (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : ones_digit_output;
+	hand_light <= (enable == 1'b1)       ? 1'b0       : 1'b1;
+	walk_light <= (enable == 1'b1)       ? 1'b1       : 1'b0;
+end
 
 endmodule
 

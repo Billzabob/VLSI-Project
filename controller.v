@@ -1,6 +1,13 @@
 `timescale 1ms/1ps
 `include "pedestrian_light.v"
 `include "traffic_light.v"
+
+//-------------States----------------------------------
+`define STRAIGHT_STREET_STRAIGHT_LANE 0
+`define STRAIGHT_STREET_TURN_LANE 1
+`define CROSS_STREET_STRAIGHT_LANE 2
+`define CROSS_STREET_TURN_LANE 3
+
 module controller (
 	clk,
 	
@@ -36,12 +43,6 @@ module controller (
 	cross_street_tens_digit,
 	cross_street_ones_digit
 );
-
-//-------------States----------------------------------
-parameter straight_street_straight_lane = 0;
-parameter straight_street_turn_lane = 1;
-parameter cross_street_straight_lane = 2;
-parameter cross_street_turn_lane = 3;
 
 //-------------Input Ports-----------------------------
 input clk;
@@ -183,7 +184,7 @@ traffic_light cross_street_turn_lane_traffic_light(
 
 always @ (state) begin
 	case(state)
-		straight_street_straight_lane:
+		`STRAIGHT_STREET_STRAIGHT_LANE:
 		begin
 			// straight street straight lanes are green
 			// straight street turn lanes are red
@@ -204,7 +205,7 @@ always @ (state) begin
 			straight_street_pedestrian_light_enable <= 1;
 			cross_street_pedestrian_light_enable <= 0;
 		end
-		straight_street_turn_lane:
+		`STRAIGHT_STREET_TURN_LANE:
 		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are green
@@ -225,7 +226,7 @@ always @ (state) begin
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 0;
 		end
-		cross_street_straight_lane:
+		`CROSS_STREET_STRAIGHT_LANE:
 		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are red
@@ -246,7 +247,7 @@ always @ (state) begin
 			straight_street_pedestrian_light_enable <= 0;
 			cross_street_pedestrian_light_enable <= 1;
 		end
-		cross_street_turn_lane:
+		`CROSS_STREET_TURN_LANE:
 		begin
 			// straight street straight lanes are red
 			// straight street turn lanes are red
@@ -309,23 +310,23 @@ always @ (posedge clk) begin
 		master_timer <= master_timer - 1;
 		master_timer_speed_up <= master_timer_speed_up;
 
-		if((state == straight_street_straight_lane) && (master_timer == 0)) begin
-			state <= straight_street_turn_lane;
+		if((state == `STRAIGHT_STREET_STRAIGHT_LANE) && (master_timer == 0)) begin
+			state <= `STRAIGHT_STREET_TURN_LANE;
 			master_timer <= 60;
 		end
 
-		if((state == straight_street_turn_lane) && (master_timer == 0)) begin
-			state <= cross_street_straight_lane;
+		if((state == `STRAIGHT_STREET_TURN_LANE) && (master_timer == 0)) begin
+			state <= `CROSS_STREET_STRAIGHT_LANE;
 			master_timer <= 120;
 		end
 
-		if((state == cross_street_straight_lane) && (master_timer == 0)) begin
-			state <= cross_street_turn_lane;
+		if((state == `CROSS_STREET_STRAIGHT_LANE) && (master_timer == 0)) begin
+			state <= `CROSS_STREET_TURN_LANE;
 			master_timer <= 60;
 		end
 
-		if((state == cross_street_turn_lane) && (master_timer == 0)) begin
-			state <= straight_street_straight_lane;
+		if((state == `CROSS_STREET_TURN_LANE) && (master_timer == 0)) begin
+			state <= `STRAIGHT_STREET_STRAIGHT_LANE;
 			master_timer <= 120;
 		end
 	end
@@ -339,22 +340,22 @@ end
 
 always @ (straight_street_pedestrian_button, cross_street_pedestrian_button, straight_street_straight_lane_car_sensor,
 	straight_street_turn_lane_car_sensor, cross_street_straight_lane_car_sensor, cross_street_turn_lane_car_sensor) begin
-	if(straight_street_pedestrian_button == 1 && master_timer > 30 && state != straight_street_straight_lane) begin
+	if(straight_street_pedestrian_button == 1 && master_timer > 30 && state != `STRAIGHT_STREET_STRAIGHT_LANE) begin
 		master_timer_speed_up <= 1;
 	end
-	else if(cross_street_pedestrian_button == 1 && master_timer > 30 && state != cross_street_straight_lane) begin
+	else if(cross_street_pedestrian_button == 1 && master_timer > 30 && state != `CROSS_STREET_STRAIGHT_LANE) begin
 		master_timer_speed_up <= 1;
 	end
-	else if(straight_street_straight_lane_car_sensor == 1 && master_timer > 30 && state != straight_street_straight_lane) begin
+	else if(straight_street_straight_lane_car_sensor == 1 && master_timer > 30 && state != `STRAIGHT_STREET_STRAIGHT_LANE) begin
 		master_timer_speed_up <= 1;
 	end
-	else if(straight_street_turn_lane_car_sensor == 1 && master_timer > 30 && state != straight_street_turn_lane) begin
+	else if(straight_street_turn_lane_car_sensor == 1 && master_timer > 30 && state != `STRAIGHT_STREET_TURN_LANE) begin
 		master_timer_speed_up <= 1;
 	end
-	else if(cross_street_straight_lane_car_sensor == 1 && master_timer > 30 && state != cross_street_straight_lane) begin
+	else if(cross_street_straight_lane_car_sensor == 1 && master_timer > 30 && state != `CROSS_STREET_STRAIGHT_LANE) begin
 		master_timer_speed_up <= 1;
 	end
-	else if(cross_street_turn_lane_car_sensor == 1 && master_timer > 30 && state != cross_street_turn_lane) begin
+	else if(cross_street_turn_lane_car_sensor == 1 && master_timer > 30 && state != `CROSS_STREET_TURN_LANE) begin
 		master_timer_speed_up <= 1;
 	end
 	else begin
