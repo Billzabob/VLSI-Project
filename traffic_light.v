@@ -16,8 +16,8 @@ output yellow_light;
 output red_light;
 
 //-------------Input ports Data Type------------------- 
-reg [6:0] master_timer;
-wire      enable;
+wire [6:0] master_timer;
+wire       enable;
 
 //-------------Output Ports Data Type------------------
 reg green_light = 0;
