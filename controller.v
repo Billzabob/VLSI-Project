@@ -298,7 +298,7 @@ end
 // then the seconds_timer comparison below will need to be updated to 
 // whatever the clock rate is.
 
-always @ (posedge clk) begin
+always @ (posedge clk, posedge master_timer_speed_up) begin
 	if(master_timer_speed_up == 1) begin
 		seconds_timer <= 0;
 		master_timer <= 30;
@@ -336,7 +336,8 @@ always @ (posedge clk) begin
 end
 
 always @ (straight_street_pedestrian_button, cross_street_pedestrian_button, straight_street_straight_lane_car_sensor,
-	straight_street_turn_lane_car_sensor, cross_street_straight_lane_car_sensor, cross_street_turn_lane_car_sensor) begin
+	straight_street_turn_lane_car_sensor, cross_street_straight_lane_car_sensor, cross_street_turn_lane_car_sensor,
+	state, master_timer) begin
 	if(straight_street_pedestrian_button == 1 && master_timer > 30 && state != `STRAIGHT_STREET_STRAIGHT_LANE) begin
 		master_timer_speed_up <= 1;
 	end
@@ -356,7 +357,7 @@ always @ (straight_street_pedestrian_button, cross_street_pedestrian_button, str
 		master_timer_speed_up <= 1;
 	end
 	else begin
-		master_timer_speed_up <= master_timer_speed_up;
+		master_timer_speed_up <= 0;
 	end
 end
 

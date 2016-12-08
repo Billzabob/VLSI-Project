@@ -33,8 +33,8 @@ always @ (enable or master_timer) begin
 		red_light    <= 1;
 	end
 
-	// While the master timer is above 15 seconds it is green
-	if(enable && (master_timer >= 15)) begin
+	// While the master timer is above 4 seconds it is green
+	if(enable && (master_timer >= 4)) begin
 		green_light  <= 1;
 		yellow_light <= 0;
 		red_light    <= 0;
@@ -42,7 +42,7 @@ always @ (enable or master_timer) begin
 
 	// While the master timer is between 1 and 15 seconds the
 	// light is yellow
-	if(enable && (master_timer > 0) && (master_timer < 15)) begin
+	if(enable && (master_timer > 0) && (master_timer < 4)) begin
 		green_light  <= 0;
 		yellow_light <= 1;
 		red_light    <= 0;

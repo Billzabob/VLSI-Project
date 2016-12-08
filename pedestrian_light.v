@@ -40,7 +40,7 @@ seven_segment seven_segment0 (
 );
 
 //------------Code Starts Here-------------------------
-always @(master_timer) begin
+always @(master_timer or enable or tens_digit_output or ones_digit_output) begin
 	tens_digit <= (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : tens_digit_output;
 	ones_digit <= (master_timer > 7'd30 || enable == 1'b0) ? 7'b0000000 : ones_digit_output;
 	hand_light <= (enable == 1'b1)       ? 1'b0       : 1'b1;
