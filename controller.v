@@ -180,6 +180,19 @@ traffic_light cross_street_turn_lane_traffic_light(
 	cross_street_turn_lane_red_light
 );
 
+initial begin
+	seconds_timer = 0;
+    master_timer = 0;
+	state = 0;
+	straight_street_straight_lane_enable = 0;
+	straight_street_turn_lane_enable = 0;
+	cross_street_straight_lane_enable = 0;
+	cross_street_turn_lane_enable = 0;
+	straight_street_pedestrian_light_enable = 0;
+	cross_street_pedestrian_light_enable = 0;
+	master_timer_speed_up = 0;
+end
+
 //-------------FSM-------------------------------------
 
 always @ (state) begin
