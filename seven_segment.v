@@ -1,7 +1,7 @@
 module seven_segment (
 	number,
 	tens_digit,
-	ones_digit,
+	ones_digit
 );
 
 //-------------Input Ports-----------------------------
