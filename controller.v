@@ -184,12 +184,6 @@ initial begin
 	seconds_timer = 0;
     master_timer = 0;
 	state = 0;
-	straight_street_straight_lane_enable = 0;
-	straight_street_turn_lane_enable = 0;
-	cross_street_straight_lane_enable = 0;
-	cross_street_turn_lane_enable = 0;
-	straight_street_pedestrian_light_enable = 0;
-	cross_street_pedestrian_light_enable = 0;
 	master_timer_speed_up = 0;
 end
 
@@ -341,10 +335,15 @@ always @ (posedge clk, posedge master_timer_speed_up) begin
 			master_timer <= 120;
 		end
 	end
-	else begin
+	else if(state == `STRAIGHT_STREET_STRAIGHT_LANE || state == `STRAIGHT_STREET_STRAIGHT_LANE || state == `CROSS_STREET_STRAIGHT_LANE || state == `CROSS_STREET_STRAIGHT_LANE) begin
 		seconds_timer <= seconds_timer + 1;
 		master_timer <= master_timer;
 		state <= state;
+	end
+	else begin
+		seconds_timer <= 0;
+    	master_timer <= 0;
+		state <= 0;
 	end
 end
 
