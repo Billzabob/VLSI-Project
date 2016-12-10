@@ -50,6 +50,7 @@ always @ (ones_value) begin
 		4'd7 : ones_digit <= 7'b1110000;
 		4'd8 : ones_digit <= 7'b1111111;
 		4'd9 : ones_digit <= 7'b1110011;
+		default : ones_digit <= 7'b0000000;
 	endcase
 end
 
