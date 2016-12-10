@@ -1,4 +1,3 @@
-`include "traffic_light.v"
 module traffic_light_tb();
 
 reg       enable;
@@ -39,8 +38,8 @@ initial begin
 		$display("Green light passed");
 	end
 
-	#100
-	// master_timer is at 10
+	#107
+	// master_timer is at 3
 
 	// The traffic light should be yellow when enabled and the master_timer
 	// is in the yellow range (15 ... 0)
@@ -52,7 +51,7 @@ initial begin
 		$display("Yellow light passed");
 	end
 
-	#10
+	#3
 	// master_timer is at 0
 
 	// The traffic light should be red when the master timer is at 0
@@ -90,3 +89,4 @@ traffic_light traffic_light_dut(
 );
 
 endmodule
+

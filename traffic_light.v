@@ -26,6 +26,10 @@ reg red_light;
 
 //------------Output Statments-------------------------
 always @ (enable or master_timer) begin
+	green_light <= 0;
+	yellow_light <= 0;
+	red_light <= 0;
+
 	// If a traffic light is not enabled then it is red
 	if(!enable) begin
 		green_light  <= 0;
