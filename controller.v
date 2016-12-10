@@ -180,6 +180,13 @@ traffic_light cross_street_turn_lane_traffic_light(
 	cross_street_turn_lane_red_light
 );
 
+initial begin
+	seconds_timer = 0;
+    master_timer = 0;
+	state = 0;
+	master_timer_speed_up = 0;
+end
+
 //-------------FSM-------------------------------------
 
 always @ (state) begin
@@ -328,10 +335,15 @@ always @ (posedge clk, posedge master_timer_speed_up) begin
 			master_timer <= 120;
 		end
 	end
-	else begin
+	else if(state == `STRAIGHT_STREET_STRAIGHT_LANE || state == `STRAIGHT_STREET_STRAIGHT_LANE || state == `CROSS_STREET_STRAIGHT_LANE || state == `CROSS_STREET_STRAIGHT_LANE) begin
 		seconds_timer <= seconds_timer + 1;
 		master_timer <= master_timer;
 		state <= state;
+	end
+	else begin
+		seconds_timer <= 0;
+    	master_timer <= 0;
+		state <= 0;
 	end
 end
 
